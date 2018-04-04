@@ -39,18 +39,26 @@ func TestSimpleCycle(t *testing.T) {
 	assert.True(t, target.IsCyclic())
 }
 
-// func TestCycleWithDistantVertex(t *testing.T) {
-// 	target := NewGraph(4)
-// 	target.AddEdge(0, 1)
-// 	target.AddEdge(1, 2)
-// 	target.AddEdge(2, 3)
-// 	target.AddEdge(3, 0)
-// 	assert.True(t, target.IsCyclic())
-// }
+func TestCycleWithDistantVertex(t *testing.T) {
+	target := NewGraph(4)
+	target.AddEdge(0, 1)
+	target.AddEdge(1, 2)
+	target.AddEdge(2, 3)
+	target.AddEdge(3, 0)
+	assert.True(t, target.IsCyclic())
+}
 
-// func TestNoCycleForDisjointedGraph(t *testing.T) {
-// 	target := NewGraph(4)
-// 	target.AddEdge(0, 1)
-// 	target.AddEdge(2, 3)
-// 	assert.True(t, target.IsCyclic())
-// }
+func TestNoCycleForDisjointedGraph(t *testing.T) {
+	target := NewGraph(4)
+	target.AddEdge(0, 1)
+	target.AddEdge(2, 3)
+	assert.False(t, target.IsCyclic())
+}
+
+func TestCycleForDisjointedGraph(t *testing.T) {
+	target := NewGraph(4)
+	target.AddEdge(0, 1)
+	target.AddEdge(2, 3)
+	target.AddEdge(3, 2)
+	assert.True(t, target.IsCyclic())
+}

@@ -1,10 +1,6 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/davecgh/go-spew/spew"
-)
+import "fmt"
 
 type Vertex int
 
@@ -30,19 +26,35 @@ func (g *Graph) AddEdge(v, w Vertex) {
 	g.adj[v][w] = true
 }
 
-func (g *Graph) IsCyclic() bool {
-	seen := make(map[Vertex]bool)
-	for v, edgeMap := range g.adj {
-		if _, exists := edgeMap[v]; exists {
+func (g *Graph) walkGraph(v Vertex, seen map[Vertex]bool) bool {
+	fmt.Printf("node %v\n", v)
+	if _, exists := seen[v]; exists {
+		return true
+	}
+	if _, exists := g.adj[v]; !exists {
+		return false
+	}
+	seen[v] = true
+	for w := range g.adj[v] {
+		if g.walkGraph(w, seen) == true {
 			return true
 		}
-		seen[v] = true
-		for w := range edgeMap {
-			fmt.Printf("%v %v\n", v, w)
-			spew.Dump(seen)
-			if _, exists := seen[w]; exists {
-				return true
-			}
+	}
+	return false
+}
+
+func (g *Graph) IsCyclic() bool {
+	var v Vertex
+	seen := make(map[Vertex]bool)
+	for v = 0; v < g.v; v++ {
+		if _, exists := seen[v]; exists {
+			continue
+		}
+		if _, exists := g.adj[v][v]; exists {
+			return true
+		}
+		if g.walkGraph(v, seen) {
+			return true
 		}
 	}
 	return false
