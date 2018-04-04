@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type Vertex int
 
 type Graph struct {
@@ -27,7 +25,6 @@ func (g *Graph) AddEdge(v, w Vertex) {
 }
 
 func (g *Graph) walkGraph(v Vertex, seen map[Vertex]bool) bool {
-	fmt.Printf("node %v\n", v)
 	if _, exists := seen[v]; exists {
 		return true
 	}
@@ -59,20 +56,6 @@ func (g *Graph) IsCyclic() bool {
 	}
 	return false
 }
-
-/*
-	Example:
-	Input:
-	2
-	2 2
-	0 1 0 0
-	4 3
-	0 1 1 2 2 3
-
-	Output:
-	1
-	0
-*/
 
 func main() {
 }
